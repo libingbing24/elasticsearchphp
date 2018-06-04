@@ -8,7 +8,7 @@
 //phpinfo();
 require_once(__DIR__.'/include/common.php');
 $myindex = empty($_REQUEST['myindex'])? 'mumayi':$_REQUEST['myindex'];
-$mytype = empty($_REQUEST['mytype'])? 'app':$_REQUEST['mytype'];
+$mytype = empty($_REQUEST['mytype'])? 'mumayi_soft':$_REQUEST['mytype'];
 $estype = empty($_REQUEST['estype'])? 1 : $_REQUEST['estype'];    // 1全文搜索；2短语搜索
 switch ($estype){
     case 2:
@@ -16,6 +16,7 @@ switch ($estype){
         break;
     default:
         $st = 'match';
+        // $st = 'term';
 }
 $keyword = str_replace(' ', '', $_REQUEST['keyword']);
 $p = empty($_REQUEST['p'])? 1 : $_REQUEST['p'];
@@ -41,11 +42,41 @@ $params = array(
                 'title' => $keyword,
             )
         ),
-        'sort' => array( // 排序
-            'created' => 'desc'
-        )
+       // 'sort' => array( // 排序
+            //   'created' => 'desc'
+       // )
     )
 );
+
+// 组合查询
+// $params = array(
+//     'index' => $myindex,
+//     'type' => $mytype,
+//     'body' => array(
+//         '_source' => $fields,
+//         'from' => $page,  // 分页
+//         'size' => $pagenum,  // 每页数量
+//         'query' => array(
+//             'bool' => array(
+//                 'filter' => array(
+//                     'range' => array(
+//                         'appid' => array(
+//                             'gt' => 0
+//                         )
+//                     )
+//                 ),
+//                 'must' => array(
+//                     $st => array(
+//                         'title' => $keyword,
+//                     )
+//                 )
+//             ),
+//         ),
+//        // 'sort' => array( // 排序
+//             //   'created' => 'desc'
+//        // )
+//     )
+// );
 $rtn = $client->search($params);
 if($analyze != 1){
     $return_data = array();
@@ -56,9 +87,10 @@ if($analyze != 1){
 }
 
 
-echo '<pre>';
-print_r($rtn);
-echo '</pre>';
+//echo '<pre>';
+//print_r($rtn);
+//echo '</pre>';
+echo json_encode($rtn);
 exit();
 //die('FILE:' . __FILE__ . '; LINE:' . __LINE__);
 

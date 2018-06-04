@@ -12,7 +12,7 @@ $myid = $_REQUEST['myid'];
 $type = $_REQUEST['type'];  // 1单条数据插入；2批量数据插入；3更新数据；4删除数据
 $p = empty($_REQUEST['p'])? 1:$_REQUEST['p'];
 $pagenum = empty($_REQUEST['pagenum'])? 10000:$_REQUEST['pagenum'];
-$fields = 'appid,type,typeid,title,packagename,status,recommend,cid,created,frontdownload,score,adminstatus';
+$fields = 'appid,type,title,packagename,status,recommend,cid,created,frontdownload,score,adminstatus,icon,introduction,softsize,versioncode';
 
 
 switch ($type){
@@ -35,7 +35,7 @@ exit();
 
 // 单条数据录入
 function index($client, $myindex, $mytype, $fields){
-    // &id=998638&typeid=3&title=招财猫理财&packagenamepackagename=com.x1.ui&status=1&recommend=p2p理财产品投资神器&cid=123&created=1515573269&frontdownload=8261&score=3&adminstatus=0
+    // &appid=1&title=木蚂蚁市场&packagename=com.mumayi.market.ui&status=2&recommend=提供海量最新应用游戏免费下载&cid=47&created=1526050836&frontdownload=46952230&score=5&adminstatus=0&icon=/uploads/android/img_mumayi/2016/12/29/0/1/icon/1_e771e.png&introduction=超值市场&softsize=8254208&versioncode=325
     $fields_arr = explode(',', $fields);
     foreach ($fields_arr as $k){
         $postData[$k] = $_REQUEST[$k];
@@ -46,6 +46,7 @@ function index($client, $myindex, $mytype, $fields){
         'id' => $postData['appid'],
         'body' => $postData
     );
+    // var_dump($params);die;
     $rtn = $client->index($params);
     return $rtn;
 }

@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2018/4/16
- * Time: 11:53
+ * 索引（库）类（表）操作
+ * User: libingbing
+ * Date: 2018/05/30
  */
 require_once(__DIR__.'/include/common.php');
 
@@ -39,6 +38,7 @@ exit();
 
 // 创建索引
 function add($client, $myindex, $mytype){
+
     $params = array(
         'index' => $myindex, //索引名（相当于mysql的数据库）
 //        'settings' => array(								// 索引配置
@@ -68,10 +68,19 @@ function add($client, $myindex, $mytype){
                         ),
                         'title' => array(
                             'type' => 'text',    // 字段类型为关键字,如果需要全文检索,则修改为text,注意keyword字段为整体查询,不能作为模糊搜索
-                            'index' => 'analyzed', //(默认analyzed首先分析字符串，然后索引它。换句话说，以全文索引这个域；not_analyzed索引这个域，所以它能够被搜索，但索引的是精确值。不会对它进行分析；no不索引这个域。这个域不会被搜索到。)
-                            'analyzer' => 'ik_smart',// 指定在搜索和索引时使用的分析器(ik_max_word ：会将文本做最细粒度的拆分；尽可能多的拆分出词语;ik_smart：会做最粗粒度的拆分；已被分出的词语将不会再次被其它词语占有)
+//                            'index' => 'analyzed', //(默认analyzed首先分析字符串，然后索引它。换句话说，以全文索引这个域；not_analyzed索引这个域，所以它能够被搜索，但索引的是精确值。不会对它进行分析；no不索引这个域。这个域不会被搜索到。)
+                           'analyzer' => 'ik_max_word', // 指定在搜索和索引时使用的分析器(ik_max_word ：会将文本做最细粒度的拆分；尽可能多的拆分出词语;ik_smart：会做最粗粒度的拆分；已被分出的词语将不会再次被其它词语占有)
                         ),
                         'packagename' => array(
+                            'type' => 'keyword'
+                        ),
+                        'icon' => array(
+                            'type' => 'keyword'
+                        ),
+                        'versioncode' => array(
+                            'type' => 'keyword'
+                        ),
+                        'introduction' => array(
                             'type' => 'keyword'
                         ),
                         'status' => array(
@@ -88,6 +97,9 @@ function add($client, $myindex, $mytype){
                             "format" => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis'
                         ),
                         'frontdownload' => array(
+                            'type' => 'integer'
+                        ),
+                        'softsize' => array(
                             'type' => 'integer'
                         ),
                         'score' => array(
